@@ -1,6 +1,6 @@
 {
   "name": "@sol-x/couchdb-migration-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "couchdb migration store for node-migrate",
   "main": "dist/index.js",
   "scripts": {
@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/sol-x/couchdb-migration-store#readme",
   "dependencies": {
-    "nano": "git://github.com/sol-x/couchdb-nano.git#8.1.3"
+    "nano": "git://github.com/sol-x/couchdb-nano.git#8.1.3",
+    "wait-on": "^3.3.0"
   },
   "devDependencies": {
+    "@types/wait-on": "^3.2.0",
     "typescript": "^3.7.5"
   }
 }

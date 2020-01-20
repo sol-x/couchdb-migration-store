@@ -1,4 +1,5 @@
 import Nano from "nano";
+import waitOn from "wait-on";
 
 interface MigrationData {
   lastRun: string;
@@ -12,6 +13,7 @@ type MigrationLoadCallback = (err: Error | undefined, data?: MigrationData | {})
 
 class CouchDbMigrationStore {
   couchDbUrl: string;
+  couchDbWaitTime: number;
 
   constructor() {
     const couchDbUrl = process.env.COUCHDB_URL;
@@ -20,7 +22,15 @@ class CouchDbMigrationStore {
         "Environment variable COUCHDB_URL must be set to use couchdb-migration-store",
       );
     }
+    this.couchDbWaitTime = parseInt(process.env.COUCHDB_WAIT_TIME || "0") || 10 * 1000;
     this.couchDbUrl = couchDbUrl;
+  }
+
+  private async waitForCouchdb(): Promise<void> {
+    await waitOn({
+      resources: [this.couchDbUrl],
+      timeout: this.couchDbWaitTime,
+    });
   }
 
   async save(migrationData: MigrationData, callback: MigrationSaveCallback): Promise<void> {
@@ -30,6 +40,8 @@ class CouchDbMigrationStore {
       timestamp: migration.timestamp,
     }));
     const dataToStore = { _id: "1", lastRun, migrations };
+
+    await this.waitForCouchdb();
 
     const nano = Nano(this.couchDbUrl);
     try {
@@ -49,6 +61,8 @@ class CouchDbMigrationStore {
   }
 
   async load(callback: MigrationLoadCallback): Promise<void> {
+    await this.waitForCouchdb();
+
     const nano = Nano(this.couchDbUrl);
     try {
       const db = nano.use<MigrationData>(MIGRATION_DB_NAME);
