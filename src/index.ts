@@ -8,8 +8,8 @@ interface MigrationData {
 
 const MIGRATION_DB_NAME = "migrations";
 
-type MigrationSaveCallback = (err?: Error) => {};
-type MigrationLoadCallback = (err: Error | undefined, data?: MigrationData | {}) => {};
+type MigrationSaveCallback = (err?: Error) => void;
+type MigrationLoadCallback = (err: Error | undefined, data?: MigrationData | {}) => void;
 
 class CouchDbMigrationStore {
   couchDbUrl: string;
@@ -41,7 +41,12 @@ class CouchDbMigrationStore {
     }));
     const dataToStore = { _id: "1", lastRun, migrations };
 
-    await this.waitForCouchdb();
+    try {
+      await this.waitForCouchdb();
+    } catch (err) {
+      callback(err);
+      return;
+    }
 
     const nano = Nano(this.couchDbUrl);
     try {
@@ -61,7 +66,12 @@ class CouchDbMigrationStore {
   }
 
   async load(callback: MigrationLoadCallback): Promise<void> {
-    await this.waitForCouchdb();
+    try {
+      await this.waitForCouchdb();
+    } catch (err) {
+      callback(err);
+      return;
+    }
 
     const nano = Nano(this.couchDbUrl);
     try {

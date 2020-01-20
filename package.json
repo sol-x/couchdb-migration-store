@@ -1,6 +1,6 @@
 {
   "name": "@sol-x/couchdb-migration-store",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "couchdb migration store for node-migrate",
   "main": "dist/index.js",
   "scripts": {
