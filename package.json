@@ -1,0 +1,32 @@
+{
+  "name": "@sol-x/couchdb-migration-store",
+  "version": "1.0.0",
+  "description": "couchdb migration store for node-migrate",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build-watch": "tsc --watch --preserveWatchOutput",
+    "prepare": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sol-x/couchdb-migration-store.git"
+  },
+  "keywords": [
+    "couchdb",
+    "migrate",
+    "migration"
+  ],
+  "author": "SOL-X",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sol-x/couchdb-migration-store/issues"
+  },
+  "homepage": "https://github.com/sol-x/couchdb-migration-store#readme",
+  "dependencies": {
+    "nano": "git://github.com/sol-x/couchdb-nano.git#8.1.3"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  }
+}
