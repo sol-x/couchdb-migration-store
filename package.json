@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/sol-x/couchdb-migration-store#readme",
   "dependencies": {
-    "nano": "git://github.com/sol-x/couchdb-nano.git#8.1.3",
+    "nano": "^8.2.3",
     "wait-on": "^3.3.0"
   },
   "devDependencies": {
