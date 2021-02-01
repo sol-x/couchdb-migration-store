@@ -1,8 +1,13 @@
 {
   "name": "@sol-x/couchdb-migration-store",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "couchdb migration store for node-migrate",
   "main": "dist/index.js",
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": "./dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc --watch --preserveWatchOutput",
