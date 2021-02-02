@@ -46,6 +46,17 @@ class CouchDbMigrationStore {
     return nano.use<MigrationData>(MIGRATION_DB_NAME);
   }
 
+  private async getMigrationDocument(
+    db: Nano.DocumentScope<MigrationData>,
+    docId: string
+  ): Promise<Nano.DocumentGetResponse | undefined> {
+    try {
+      return await db.get(docId, { revs_info: true });
+    } catch (e) {
+      return;
+    }
+  }
+
   async save(
     migrationData: MigrationData,
     callback: MigrationSaveCallback
@@ -59,10 +70,17 @@ class CouchDbMigrationStore {
 
     try {
       const db = await this.waitForCouchdb();
-      // The insert method will update the document with same _id
-      await db.insert(dataToStore);
+
+      const dataInStore = await this.getMigrationDocument(db, "1");
+
+      if (dataInStore && dataInStore._rev) {
+        await db.insert({ ...dataToStore, _rev: dataInStore._rev });
+      } else {
+        await db.insert(dataToStore);
+      }
       callback(undefined);
     } catch (e) {
+      console.error(`Encounter error when running migration ${lastRun}`);
       callback(e);
     }
   }
