@@ -4,6 +4,7 @@
     "noImplicitAny": false,
     "esModuleInterop": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "./dist",
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
